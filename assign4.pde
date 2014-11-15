@@ -37,6 +37,44 @@ void setup() {
   reset();
 }
 
+
+
+void printText (){
+      colorMode(RGB);
+      fill(95, 194, 226);
+      
+      if( status == GAME_START){
+      textAlign(CENTER);
+      textSize(20);
+      text("press ENTER to Start",320,280);
+      textSize(60);
+      text("GLAIXIAN",320 , 240); 
+    }
+    
+      if( status == GAME_PAUSE){
+      textAlign(CENTER);
+      textSize(20);
+      text("press ENTER to Resume",320,280);
+      textSize(40);
+      text("PAUSE",320 , 240); 
+    }
+      
+      if( status == GAME_WIN){
+      textAlign(CENTER);
+      textSize(40);
+      text("WIN", 320 , 200); 
+    }
+    
+      if( status == GAME_LOSE){
+      textAlign(CENTER);
+      textSize(20);
+      text("You are dead!!!",320,280);
+      textSize(40);
+      text("BOOOM",320 , 240); 
+    }
+}
+
+
 void draw() {
   background(50, 50, 50);
   noStroke();
@@ -45,7 +83,8 @@ void draw() {
 
   case GAME_START:
     /*---------Print Text-------------*/
-    text("press enter", 320, 240); // replace this with printText
+    printText();
+
     /*--------------------------------*/
     break;
 
@@ -71,13 +110,13 @@ void draw() {
 
   case GAME_PAUSE:
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     break;
 
   case GAME_WIN:
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     winAnimate();
     break;
@@ -85,7 +124,7 @@ void draw() {
   case GAME_LOSE:
     loseAnimate();
     /*---------Print Text-------------*/
-
+     printText();
     /*--------------------------------*/
     break;
   }
@@ -116,12 +155,39 @@ void keyPressed() {
 /*---------Make Alien Function-------------*/
 void alienMaker() {
   aList[0]= new Alien(50, 50);
+  for(int i=0;i<12;i=i+1){  
+    aList[i]= new Alien(50+i*40,50);    
+  }
+  
+  aList[13]= new Alien(50, 100);
+  for(int i=0;i<12;i=i+1){
+    aList[13+i]= new Alien(50+i*40,100);
+  }
+  
+  aList[25]= new Alien(50, 150);
+  for(int i=0;i<12;i=i+1){
+    aList[25+i]= new Alien(50+i*40,150);
+  }
+  
+  aList[37]= new Alien(50, 200);
+  for(int i=0;i<12;i=i+1){
+    aList[37+i]= new Alien(50+i*40,200);
+  }
+  
+  aList[49]= new Alien(50, 250);
+  for(int i=0;i<5;i=i+1){
+    aList[49+i]= new Alien(50+i*40,250);
+  }
 }
+
 
 void drawLife() {
   fill(230, 74, 96);
   text("LIFE:", 36, 455);
   /*---------Draw Ship Life---------*/
+  for(int i=0;i<=2;i++){
+  ellipse(78+(25*i),459,15,15);
+  }
 }
 
 void drawBullet() {
@@ -198,6 +264,16 @@ void checkAlienDead() {
       Alien alien = aList[j];
       if (bullet != null && alien != null && !bullet.gone && !alien.die // Check Array isn't empty and bullet / alien still exist
       /*------------Hit detect-------------*/        ) {
+        if (
+        bList[i].bX <=aList[j].aX + aList[i].aSize/2 && 
+        bList[i].bX >= aList[j].aX - aList[i].aSize/2 &&
+        bList[i].bY <=aList[j].aY + aList[i].aSize/2 && 
+        bList[i].bY >= aList[j].aY - aList[i].aSize/2){
+        removeBullet(bullet);
+        removeAlien(alien);
+        point+=10;
+      }
+        
         /*-------do something------*/
       }
     }
@@ -207,12 +283,19 @@ void checkAlienDead() {
 /*---------Alien Drop Laser-----------------*/
 
 
+
 /*---------Check Laser Hit Ship-------------*/
 void checkShipHit() {
   for (int i=0; i<lList.length-1; i++) {
     Laser laser = lList[i];
     if (laser!= null && !laser.gone // Check Array isn't empty and laser still exist
     /*------------Hit detect-------------*/      ) {
+  
+  frameRate(50);
+  int ran = int (random(52));
+  lList[i]= new Laser(lList[i].lX,lList[i].lY);
+      
+      
       /*-------do something------*/
     }
   }
@@ -315,9 +398,15 @@ void statusCtrl() {
     case GAME_START:
       status = GAME_PLAYING;
       break;
-
+    
       /*-----------add things here--------*/
-
+   case GAME_PLAYING:
+      status = GAME_PAUSE;
+      break;
+   case GAME_PAUSE:
+      status = GAME_PLAYING;
+      break;
+   
     }
   }
 }
@@ -343,4 +432,3 @@ void cheatKeys() {
     }
   }
 }
-
