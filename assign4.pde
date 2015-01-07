@@ -153,22 +153,12 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
-void alienMaker(int total, int numInRow) {
-
-  int ox = 50; 
-  int oy = 50; 
-  int xSpacing = 40; 
-  int ySpacing = 50; 
-
-  for (int i=0; i <total; ++i) {
-
-    int x = ox + (xSpacing*(i % numInRow));
-    int y = oy + (ySpacing*int(i / numInRow));
-
-    //aList[0]= new Alien(ox,oy);
-    aList[i]= new Alien(x, y);
+void alienMaker() {
+  for(int n=0;n<54;n=n+1){
+    
+    aList[n]= new Alien((int)50+(int)(n%12)*40,50+50*(int)(n/12));
+    }
   }
-}
 
 
 void drawLife() {
