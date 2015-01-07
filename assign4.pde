@@ -153,31 +153,13 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
-void alienMaker() {
-  aList[0]= new Alien(50, 50);
-  for(int i=0;i<12;i=i+1){  
-    aList[i]= new Alien(50+i*40,50);    
-  }
-  
-  aList[13]= new Alien(50, 100);
-  for(int i=0;i<12;i=i+1){
-    aList[13+i]= new Alien(50+i*40,100);
-  }
-  
-  aList[25]= new Alien(50, 150);
-  for(int i=0;i<12;i=i+1){
-    aList[25+i]= new Alien(50+i*40,150);
-  }
-  
-  aList[37]= new Alien(50, 200);
-  for(int i=0;i<12;i=i+1){
-    aList[37+i]= new Alien(50+i*40,200);
-  }
-  
-  aList[49]= new Alien(50, 250);
-  for(int i=0;i<5;i=i+1){
-    aList[49+i]= new Alien(50+i*40,250);
-  }
+void alienMaker(int alienNums,int numInRow) {
+  countAlien = alienNums;
+  for(int i = 0;i < alienNums;i++){
+    int col = int(i % numInRow);
+    int row = int(i / numInRow);
+    aList[i]= new Alien(50+(40*col), 50+(50*row));
+  }  
 }
 
 
